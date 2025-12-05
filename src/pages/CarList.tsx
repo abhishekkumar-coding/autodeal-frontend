@@ -67,7 +67,7 @@ const CarList: React.FC = () => {
                 }
             );
 
-            alert(`User registered successfully!\n${JSON.stringify(response.data)}`);
+            alert(`User registered successfully!`);
 
             setShowPopup(false);
             setPhone("");
