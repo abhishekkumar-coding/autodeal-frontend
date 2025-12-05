@@ -28,6 +28,7 @@ const CarList: React.FC = () => {
     const [carsData, setCarsData] = useState<Car[]>([]);
     const [carId, setCarId] = useState<string>("")
     const [bookingType, setBookingType] = useState<string>("")
+    const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
 
     useEffect(() => {
         fetchCars();
@@ -40,25 +41,30 @@ const CarList: React.FC = () => {
             setCarsData(res.data?.cars);
             // setLoading(false);
         } catch (err) {
-            console.log(err);
+            console.error(err);
+            alert(`Error: ${err || "Something went wrong"}`);
+        } finally {
+            setIsSubmitting(false);
         }
+
     };
 
     const handleOpenPopup = (car: Car, type: "Buy" | "Rent") => {
-        setSelectedCar({ ...car, type }); 
-        setCarId(car._id);               
-        setBookingType(type);          
-        setShowPopup(true);              
+        setSelectedCar({ ...car, type });
+        setCarId(car._id);
+        setBookingType(type);
+        setShowPopup(true);
     };
 
 
     const handleSubmit = async () => {
-        if (!selectedCar) return;
+        if (!selectedCar || isSubmitting) return;
+        setIsSubmitting(true);
 
         const fullPhone = countryCode + phone;
 
         try {
-             await axios.post(
+            await axios.post(
                 "https://autodeal-backend.onrender.com/api/users/register",
                 {
                     phone: fullPhone,
@@ -91,7 +97,7 @@ const CarList: React.FC = () => {
                         key={car._id}
                         className="bg-white shadow-md rounded-xl p-4 sm:px-8 border hover:shadow-xl transition flex justify-between items-center gap-4"
                     >
-                    
+
                         <img
                             src={car.image}
                             alt={car.model}
@@ -168,10 +174,13 @@ const CarList: React.FC = () => {
                         <div className="flex justify-between">
                             <button
                                 onClick={handleSubmit}
-                                className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition"
+                                disabled={isSubmitting}
+                                className={`px-4 py-2 rounded-lg text-white transition 
+        ${isSubmitting ? "bg-blue-400 cursor-not-allowed" : "bg-blue-600 hover:bg-blue-700"}`}
                             >
-                                Submit
+                                {isSubmitting ? "Submitting..." : "Submit"}
                             </button>
+
 
                             <button
                                 onClick={() => setShowPopup(false)}
