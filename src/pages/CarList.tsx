@@ -58,7 +58,7 @@ const CarList: React.FC = () => {
         const fullPhone = countryCode + phone;
 
         try {
-            const response = await axios.post(
+             await axios.post(
                 "https://autodeal-backend.onrender.com/api/users/register",
                 {
                     phone: fullPhone,
