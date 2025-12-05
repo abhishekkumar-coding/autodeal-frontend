@@ -23,7 +23,7 @@ const Admin: React.FC = () => {
         setLoading(true);
         setError("");
         try {
-            const res = await axios.get("http://localhost:3000/api/booking/allBookings");
+            const res = await axios.get("https://autodeal-backend.onrender.com/api/booking/allBookings");
             setBookings(res?.data?.bookings || []);
         } catch (err) {
             console.error(err);
@@ -39,7 +39,7 @@ const Admin: React.FC = () => {
 
     const updateStatus = async (id: string, status: Booking["status"]) => {
         try {
-            await axios.put(`http://localhost:3000/api/booking/${id}`, { status });
+            await axios.put(`https://autodeal-backend.onrender.com/api/booking/${id}`, { status });
             setBookings((prev) =>
                 prev.map((b) => (b._id === id ? { ...b, status } : b))
             );

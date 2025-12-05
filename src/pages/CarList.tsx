@@ -35,7 +35,7 @@ const CarList: React.FC = () => {
 
     const fetchCars = async () => {
         try {
-            const res = await axios.get("http://localhost:3000/api/cars/allcars");
+            const res = await axios.get("https://autodeal-backend.onrender.com/api/cars/allcars");
             console.log(res.data.cars)
             setCarsData(res.data?.cars);
             // setLoading(false);
@@ -59,7 +59,7 @@ const CarList: React.FC = () => {
 
         try {
             const response = await axios.post(
-                "http://localhost:3000/api/users/register",
+                "https://autodeal-backend.onrender.com/api/users/register",
                 {
                     phone: fullPhone,
                     carId,
